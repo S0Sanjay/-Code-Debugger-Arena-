@@ -1,0 +1,87 @@
+/* Hide by default */
+.ai-hidden {
+  display: none;
+}
+
+/* AI Icon */
+.ai-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+/* Thinking dots container */
+.thinking-dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+/* Individual dot */
+.dot {
+  width: 8px;
+  height: 8px;
+  background-color: #3b82f6;
+  border-radius: 50%;
+  animation: pulse 1s infinite;
+}
+
+/* Staggered delays */
+.dot:nth-child(1) { animation-delay: 0.6s; }
+.dot:nth-child(2) { animation-delay: 0.8s; }
+.dot:nth-child(3) { animation-delay: 1s; }
+
+/* Pulse animation */
+@keyframes pulse {
+  0%   { transform: scale(0.8); }
+  50%  { transform: scale(1.2); }
+  100% { transform: scale(0.8); }
+}
+
+/* AI Result Box */
+.ai-score-box {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  transform: translateY(30px);
+  animation: slideUp 0.4s ease forwards;
+}
+
+/* Slide up animation */
+@keyframes slideUp {
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Score text */
+#ai-score {
+  font-size: 3em;
+  font-weight: bold;
+}
+
+/* Hover glow */
+.ai-score-box:hover {
+  box-shadow: 0 0 20px #3b82f6;
+}
+
+/* VS Indicator */
+.vs-line {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px 0;
+}
+
+/* Mobile support */
+@media (max-width: 480px) {
+  .ai-icon {
+    font-size: 28px;
+  }
+
+  .ai-score-box {
+    padding: 16px;
+  }
+}
