@@ -1,0 +1,67 @@
+body {
+    background: radial-gradient(circle at center, midnightblue, black);
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+#main-header {
+    font-size: 35px;
+    letter-spacing: 8px;
+    color: mediumspringgreen;
+    margin: 40px 0;
+    text-shadow: 0 0 20px mediumspringgreen;
+}
+
+#game-container {
+    width: 90%;
+    max-width: 800px;
+    display: grid;
+    gap: 20px;
+    padding-bottom: 50px;
+}
+
+section {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 25px;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+section:hover {
+    transform: scale(1.03) translateY(-5px);
+    border-color: mediumspringgreen;
+    box-shadow: 0 10px 30px rgba(0, 250, 154, 0.2);
+}
+
+#timer-display {
+    font-size: 60px;
+    text-align: center;
+    color: mediumspringgreen;
+    font-weight: bold;
+    font-family: monospace;
+    text-shadow: 0 0 15px rgba(0, 250, 154, 0.5);
+}
+
+
+.loading {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+@media (min-width: 768px) {
+    #game-container {
+        grid-template-columns: 1fr 1fr;
+    }
+    #level-selector, #challenge-info, #control-buttons, 
+    #results-area, #code-diff, #leaderboard {
+        grid-column: span 2;
+    }
+}

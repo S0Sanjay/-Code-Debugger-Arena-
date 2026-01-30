@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Judge - Team Project</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    #code-input { font-family: 'Monaco', 'Menlo', monospace; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen p-8">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-12">
+      <h1 class="text-6xl font-black bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent mb-4">
+        Code Judge
+      </h1>
+      <p class="text-xl text-slate-300">Write code. Get instant feedback. Learn fast! 🚀</p>
+      <p class="text-sm text-slate-500 mt-2">Ctrl+Enter to test</p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8">
+      <!-- Code Editor -->
+      <div>
+        <label class="block text-xl font-bold text-white mb-4">Your Code</label>
+        <textarea 
+          id="code-input" 
+          rows="20" 
+          class="w-full p-6 bg-slate-800/80 border-2 border-slate-600 rounded-2xl text-lg text-white font-mono resize-vertical focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 transition-all duration-200"
+          placeholder="console.log('Hello World!');&#10;let x = 42;&#10;console.log('Answer:', x);"
+        ></textarea>
+        <button 
+          onclick="testCode()" 
+          class="mt-4 w-full bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-bold py-4 px-8 rounded-2xl text-xl shadow-2xl hover:shadow-emerald-500/25 transform hover:scale-105 transition-all duration-200"
+        >
+          🧪 Test My Code
+        </button>
+      </div>
+
+      <!-- Results -->
+      <div>
+        <label class="block text-xl font-bold text-white mb-4">Results</label>
+        <div id="result-display" class="min-h-[500px] bg-slate-800/50 rounded-2xl p-8 border-2 border-slate-600/50 backdrop-blur-sm">
+          <div class="text-center text-slate-500 py-20">
+            <div class="text-6xl mb-4">✨</div>
+            <p class="text-2xl">Write some code and click Test!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-12 text-center text-sm text-slate-400">
+      <p>Team Project: Member 3 (Judge) + Member 1 (UI) + Member 6 (Scoring)</p>
+    </div>
+  </div>
+  <script src="/codeJudge.js"></script>
+</body>
+</html>
