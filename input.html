@@ -1,0 +1,84 @@
+
+
+<div class=" bg-black text-gray-200 p-6">
+
+  <!-- levels -->
+  <section class="mb-6">
+    <div class="flex gap-3">
+      <button id="easyBtn"
+        class="w-24 rounded-lg bg-green-400 text-white font-bold py-2">
+        🟢 Easy
+      </button>
+      <button id="mediumBtn"
+        class="w-24 rounded-lg bg-gray-200 text-black py-2">
+        🟡 Medium
+      </button>
+      <button id="hardBtn"
+        class="w-24 rounded-lg bg-gray-200 text-black py-2">
+        🔴 Hard
+      </button>
+    </div>
+  </section>
+
+  <!-- Challenges -->
+  <section class="mb-6">
+    <h3 id="title" class="text-xl font-semibold mb-1">
+      Easy Level – Fix the Syntax
+    </h3>
+    <p id="desc" class="text text-gray-400">
+      Make this run without errors
+    </p>
+  </section>
+
+  <!-- Editor container -->
+  <section class="mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- Bug code-->
+      <div>
+        <p class="text-sm font-medium mb-1">Buggy Code (Read Only)</p>
+        <textarea id="bug" rows="10" disabled
+          class="w-full p-3 font-mono text-base
+                 bg-slate-800 text-gray-400
+                 border border-slate-700 rounded-lg resize-none">
+
+        </textarea>
+      </div>
+
+      <!-- User code -->
+      <div>
+        <p class="text-sm font-medium mb-1 ">Your Fix</p>
+        <textarea id="user" rows="10"
+          placeholder="Fix the buggy code here..."
+          class="w-full  p-3 font-mono text-base
+                 border border-slate-700  bg-slate-800 rounded-lg resize-y
+                 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500">
+        </textarea>
+      </div>
+
+    </div>
+  </section>
+
+  <!--Buttons -->
+  <section>
+    <div class="flex gap-3">
+      <button id="run"
+        class="w-24 h-12 bg-green-500 text-white rounded-lg">
+        ▶️ Run
+      </button>
+      <button id="reset"
+        class="w-24 h-12 bg-yellow-400 text-black rounded-lg">
+        🔄 Reset
+      </button>
+      <button id="submit"
+        class="w-24 h-12 bg-blue-500 text-white rounded-lg">
+        ✅ Submit
+      </button>
+    </div>
+  </section>
+
+  <script src="input.js"></script>
+  </div>
+
+
+
