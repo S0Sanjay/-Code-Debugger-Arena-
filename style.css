@@ -1,0 +1,146 @@
+* {
+  font-family: "Orbitron", monospace;
+}
+body {
+  background: radial-gradient(circle at center, midnightblue, black);
+  color: white;
+  font-family: "Segoe UI", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+#main-header {
+  font-size: 35px;
+  letter-spacing: 8px;
+  color: mediumspringgreen;
+  margin: 40px 0;
+  text-shadow: 0 0 20px mediumspringgreen;
+}
+
+#game-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  padding: 20px;
+}
+
+#level-selector {
+  grid-column: 2 / 3;
+  justify-self: center;
+
+  transform: translateX(0) scale(1.02);
+  opacity: 1;
+
+  transition:
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.4s ease;
+  will-change: transform;
+}
+
+#challenge-info,
+#editor-container {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+
+  transition:
+    transform 0.6s ease,
+    opacity 0.6s ease;
+}
+
+.game-active #level-selector {
+  grid-column: 1 / 2; /* move to left column */
+  justify-self: stretch;
+
+  transform: translateX(0) scale(1);
+}
+
+.game-active #challenge-info,
+.game-active #editor-container {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Level buttons stacked */
+#level-selector .flex.gap-2 {
+  flex-direction: column;
+}
+
+/* Hide timer */
+#level-selector #timer-display {
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: 0.4s ease;
+}
+
+/* Hide question */
+#level-selector > section {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: 0.5s ease;
+}
+
+/* Hide control buttons */
+#level-selector #control-buttons {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: 0.5s ease;
+}
+
+#level-selector.level-selected .flex.gap-2 {
+  flex-direction: row;
+}
+
+#level-selector.level-selected #timer-display {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+#level-selector.level-selected > section {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+#level-selector.level-selected #control-buttons {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+section {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 25px;
+  transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+section:hover {
+  border-color: mediumspringgreen;
+  box-shadow: 0 10px 30px rgba(0, 250, 154, 0.2);
+}
+
+#timer-display {
+  text-align: center;
+  color: mediumspringgreen;
+  font-family: monospace;
+  text-shadow: 0 0 15px rgba(0, 250, 154, 0.5);
+}
+
+.loading {
+  opacity: 0.5;
+  pointer-events: none;
+}

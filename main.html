@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Code Debugger Arena</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body>
+    <header id="main-header">CODE DEBUGGER ARENA</header>
+    <div id="game-container">
+      <section id="level-selector" class="flex flex-col justify-between">
+        <div class="flex justify-between gap-2">
+          <div class="flex gap-2 h-fit items-center">
+            <button
+              id="easyBtn"
+              class="w-24 rounded-lg bg-green-400 text-white font-bold py-2"
+            >
+              🟢 Easy
+            </button>
+            <button
+              id="mediumBtn"
+              class="w-24 rounded-lg bg-gray-200 text-black py-2"
+            >
+              🟡 Medium
+            </button>
+            <button
+              id="hardBtn"
+              class="w-24 rounded-lg bg-gray-200 text-black py-2"
+            >
+              🔴 Hard
+            </button>
+          </div>
+          <!-- In your #level-selector, replace timer div with: -->
+          <div
+            id="timer-display"
+            class="font-bold text-2xl bg-black/50 px-2 py-1 rounded-2xl shadow-2xl border-2 border-gray-700"
+          >
+            90s
+          </div>
+        </div>
+        <section>
+          <h3 id="title" class="text-xl font-semibold mb-1">
+            Easy Level – Fix the Syntax
+          </h3>
+          <p id="desc" class="text text-gray-400">
+            Make this run without errors
+          </p>
+        </section>
+        <!--Buttons -->
+        <div class="flex gap-3" id="control-buttons">
+          <button
+            id="run"
+            onclick="testCode()"
+            class="w-24 h-12 bg-green-500 text-white rounded-lg"
+          >
+            ▶️ Run
+          </button>
+          <button
+            id="reset"
+            class="w-24 h-12 bg-yellow-400 text-black rounded-lg"
+          >
+            🔄 Reset
+          </button>
+          <button
+            id="submit"
+            class="w-24 h-12 bg-blue-500 text-white rounded-lg"
+          >
+            ✅ Submit
+          </button>
+        </div>
+      </section>
+      <section id="challenge-info">
+        <div>
+          <!-- Bug code-->
+          <div>
+            <p class="text-sm font-medium mb-1">Buggy Code (Read Only)</p>
+            <textarea
+              id="bug"
+              rows="10"
+              disabled
+              class="w-full p-3 font-mono text-base bg-slate-800 text-gray-400 border border-slate-700 rounded-lg resize-none"
+            >
+            </textarea>
+          </div>
+        </div>
+      </section>
+      <section id="editor-container">
+        <!-- User code -->
+        <div>
+          <p class="block text-xl font-bold text-white mb-1">Your Code</p>
+          <textarea
+            id="code-input"
+            rows="10"
+            class="w-full p-3 text-base bg-slate-800 text-gray-400 border border-slate-700 rounded-lg resize-none"
+            placeholder="Type your code"
+          ></textarea>
+        </div>
+      </section>
+      <!-- <section id="leaderboard"></section> -->
+    </div>
+    <section
+      id="results-area"
+      class="result absolute top-32 hidden w-full max-w-xl"
+    >
+      <div class="flex justify-between items-center mb-4">
+        <label class="text-xl font-bold text-white">Results</label>
+
+        <button
+          id="close-result"
+          class="text-white text-2xl font-bold hover:text-red-400"
+        >
+          ✖
+        </button>
+      </div>
+
+      <div
+        id="result-display"
+        class="rounded-2xl p-8 border-2 border-slate-600/50 bg-black/60"
+      >
+        <div id="result-content" class="text-center text-slate-300"></div>
+      </div>
+    </section>
+
+    <!-- <section id="code-diff"></section> -->
+
+    <script src="input.js"></script>
+    <script src="codeJudge.js"></script>
+    <script src="timer.js"></script>
+    <script>
+      const gameContainer = document.getElementById("game-container");
+      const levelButtons = [
+        document.getElementById("easyBtn"),
+        document.getElementById("mediumBtn"),
+        document.getElementById("hardBtn"),
+      ];
+      levelButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          // Activate layout animation
+          gameContainer.classList.add("game-active");
+          document
+            .getElementById("level-selector")
+            .classList.add("level-selected");
+        });
+      });
+    </script>
+  </body>
+</html>
