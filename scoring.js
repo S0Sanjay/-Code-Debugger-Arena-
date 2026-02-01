@@ -49,6 +49,11 @@ function onGameComplete(result) {
     winMessage.innerHTML = "🤝 PERFECT MATCH! Both " + result.userScore + " points";
   }
 }
+document.getElementById("submit").addEventListener("click", () => {
+  const result = calculateFinalScore(gameInputs);
+  onGameComplete(result);
+});
+
 
 // --- Play again button ---
 document.getElementById("play-again-btn").onclick = function() {
