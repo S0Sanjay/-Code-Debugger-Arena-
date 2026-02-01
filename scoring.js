@@ -49,10 +49,6 @@ function onGameComplete(result) {
     winMessage.innerHTML = "🤝 PERFECT MATCH! Both " + result.userScore + " points";
   }
 }
-document.getElementById("submit").addEventListener("click", () => {
-  const result = calculateFinalScore(gameInputs);
-  onGameComplete(result);
-});
 
 
 // --- Play again button ---
@@ -61,4 +57,19 @@ document.getElementById("play-again-btn").onclick = function() {
 };
 
 
+document.getElementById("submit").addEventListener("click", () => {
+  // Build gameInputs safely
+  const gameInputs = {
+    timeUsed: typeof startTime === "number" ? (Date.now() - startTime) / 1000 : 0,
+    errors: typeof errors === "number" ? errors : 0,
+    difficulty: currentLevel || "easy",
+    aiResult: {
+      aiScore: parseInt(document.getElementById("ai-score")?.innerText) || 50
+    }
+  };
+
+  // Calculate final score
+  const result = calculateFinalScore(gameInputs);
+  onGameComplete(result);
+});
 
