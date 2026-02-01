@@ -1,151 +1,188 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <title>Code Debugger Arena</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="scoring.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
 
-<head>
-  <title>Code Debugger Arena</title>
-  <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="scoring.css">
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
+  <body>
+    <header id="main-header">CODE DEBUGGER ARENA</header>
 
-<body>
-  <header id="main-header">CODE DEBUGGER ARENA</header>
+    <div id="game-container">
+      <!-- LEVEL SELECTOR -->
+      <section id="level-selector" class="flex flex-col justify-between">
+        <div class="flex justify-between gap-2">
+          <div class="flex gap-2 h-fit items-center">
+            <button
+              id="easyBtn"
+              class="w-24 rounded-lg bg-green-400 text-white font-bold py-2"
+            >
+              🟢 Easy
+            </button>
+            <button
+              id="mediumBtn"
+              class="w-24 rounded-lg bg-gray-200 text-black py-2"
+            >
+              🟡 Medium
+            </button>
+            <button
+              id="hardBtn"
+              class="w-24 rounded-lg bg-gray-200 text-black py-2"
+            >
+              🔴 Hard
+            </button>
+          </div>
 
-  <div id="game-container">
-
-    <!-- LEVEL SELECTOR -->
-    <section id="level-selector" class="flex flex-col justify-between">
-      <div class="flex justify-between gap-2">
-        <div class="flex gap-2 h-fit items-center">
-          <button id="easyBtn" class="w-24 rounded-lg bg-green-400 text-white font-bold py-2">🟢 Easy</button>
-          <button id="mediumBtn" class="w-24 rounded-lg bg-gray-200 text-black py-2">🟡 Medium</button>
-          <button id="hardBtn" class="w-24 rounded-lg bg-gray-200 text-black py-2">🔴 Hard</button>
+          <div
+            id="timer-display"
+            class="font-bold text-2xl bg-black/50 px-2 py-1 rounded-2xl shadow-2xl border-2 border-gray-700"
+          >
+            90s
+          </div>
         </div>
 
-        <div id="timer-display"
-          class="font-bold text-2xl bg-black/50 px-2 py-1 rounded-2xl shadow-2xl border-2 border-gray-700">
-          90s
-        </div>
-      </div>
+        <section>
+          <h3 id="title" class="text-xl font-semibold mb-1">
+            Easy Level – Fix the Syntax
+          </h3>
+          <p id="desc" class="text-gray-400">Make this run without errors</p>
+        </section>
 
-      <section>
-        <h3 id="title" class="text-xl font-semibold mb-1">Easy Level – Fix the Syntax</h3>
-        <p id="desc" class="text-gray-400">Make this run without errors</p>
+        <div class="flex gap-3" id="control-buttons">
+          <button
+            id="run"
+            onclick="testCode()"
+            class="w-24 h-12 bg-green-500 text-white rounded-lg"
+          >
+            ▶️ Run
+          </button>
+          <button
+            id="reset"
+            class="w-24 h-12 bg-yellow-400 text-black rounded-lg"
+          >
+            🔄 Reset
+          </button>
+          <button
+            id="submit"
+            disabled
+            class="w-24 h-12 bg-blue-500 text-white rounded-lg opacity-50 cursor-not-allowed"
+          >
+            ✅ Submit
+          </button>
+        </div>
       </section>
 
-      <div class="flex gap-3" id="control-buttons">
-        <button id="run" onclick="testCode()" class="w-24 h-12 bg-green-500 text-white rounded-lg">▶️ Run</button>
-        <button id="reset" class="w-24 h-12 bg-yellow-400 text-black rounded-lg">🔄 Reset</button>
-        <button id="submit" disabled class="w-24 h-12 bg-blue-500 text-white rounded-lg opacity-50 cursor-not-allowed">✅ Submit</button>
-      </div>
-    </section>
+      <!-- BUGGY CODE -->
+      <section id="challenge-info">
+        <p class="text-sm font-medium mb-1">Buggy Code (Read Only)</p>
+        <textarea
+          id="bug"
+          rows="10"
+          disabled
+          class="w-full p-3 font-mono bg-slate-800 text-gray-400 border border-slate-700 rounded-lg resize-none"
+        ></textarea>
+      </section>
 
-    <!-- BUGGY CODE -->
-    <section id="challenge-info">
-      <p class="text-sm font-medium mb-1">Buggy Code (Read Only)</p>
-      <textarea id="bug" rows="10" disabled
-        class="w-full p-3 font-mono bg-slate-800 text-gray-400 border border-slate-700 rounded-lg resize-none"></textarea>
-    </section>
+      <!-- USER CODE -->
+      <section id="editor-container">
+        <p class="text-xl font-bold text-white mb-1">Your Code</p>
+        <textarea
+          id="code-input"
+          rows="10"
+          class="w-full p-3 bg-slate-800 text-gray-400 border border-slate-700 rounded-lg resize-none"
+          placeholder="Type your code"
+        ></textarea>
+      </section>
 
-    <!-- USER CODE -->
-    <section id="editor-container">
-      <p class="text-xl font-bold text-white mb-1">Your Code</p>
-      <textarea id="code-input" rows="10"
-        class="w-full p-3 bg-slate-800 text-gray-400 border border-slate-700 rounded-lg resize-none"
-        placeholder="Type your code"></textarea>
-    </section>
-
-    <!-- code judge -->
-    <section
-      id="code-judge"
-      class="result absolute top-32 left-96 hidden w-full max-w-xl z-10"
-    >
-      <div class="flex justify-between items-center mb-4">
-        <label class="text-xl font-bold text-white">Results</label>
-
-        <button
-          id="close-result"
-          class="text-white text-2xl font-bold hover:text-red-400"
-        >
-          ✖
-        </button>
-      </div>
-
-      <div
-        id="result-display"
-        class="rounded-2xl p-8 border-2 border-slate-600/50 bg-black/60"
+      <!-- code judge -->
+      <section
+        id="code-judge"
+        class="result absolute top-32 left-96 hidden w-full max-w-xl z-10"
       >
-        <div id="result-content" class="text-center text-slate-300"></div>
-      </div>
-    </section>
+        <div class="flex justify-between items-center mb-4">
+          <label class="text-xl font-bold text-white">Results</label>
 
-    <!-- AI COMPONENTS -->
-    <div id="ai-thinking" class="ai-hidden">
-      <div class="ai-icon">🤖</div>
-      <div class="thinking-dots">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <button
+            id="close-result"
+            class="text-white text-2xl font-bold hover:text-red-400"
+          >
+            ✖
+          </button>
+        </div>
+
+        <div
+          id="result-display"
+          class="rounded-2xl p-8 border-2 border-slate-600/50 bg-black/60"
+        >
+          <div id="result-content" class="text-center text-slate-300"></div>
+        </div>
+      </section>
+
+      <!-- AI COMPONENTS -->
+      <div id="ai-thinking" class="ai-hidden">
+        <div class="ai-icon">🤖</div>
+        <div class="thinking-dots">
+          <span class="dot"></span><span class="dot"></span
+          ><span class="dot"></span>
+        </div>
+        <p>AI solving the same challenge...</p>
       </div>
-      <p>AI solving the same challenge...</p>
+
+      <div id="vs-indicator" class="ai-hidden">
+        <div class="vs-line">VS</div>
+      </div>
+
+      <div id="ai-result" class="ai-hidden">
+        <div class="ai-score-box">
+          <span class="ai-icon">🤖</span>
+          <h3>AI Score: <span id="ai-score">75</span></h3>
+          <p id="ai-time-taken">8 seconds</p>
+        </div>
+      </div>
     </div>
 
-    <div id="vs-indicator" class="ai-hidden">
-      <div class="vs-line">VS</div>
+    <!-- FINAL RESULTS -->
+    <div id="results-area">
+      <div id="final-results" class="result-hidden">
+        <div class="score-showdown">
+          <div class="user-score">
+            <h3>YOUR SCORE</h3>
+            <div id="user-final-score" class="score-number"></div>
+          </div>
+          <div class="vs-divider">VS</div>
+          <div class="ai-score">
+            <h3>🤖 AI SCORE</h3>
+            <div id="ai-final-score" class="score-number"></div>
+          </div>
+        </div>
+        <div id="win-message"></div>
+      </div>
+
+      <!-- PLAY AGAIN -->
+      <button id="play-again-btn" class="btn">New Challenge</button>
     </div>
 
-    <div id="ai-result" class="ai-hidden">
-      <div class="ai-score-box">
-        <span class="ai-icon">🤖</span>
-        <h3>AI Score: <span id="ai-score">75</span></h3>
-        <p id="ai-time-taken">8 seconds</p>
-      </div>
-    </div>
+    <!-- JS FILES -->
+    <script src="input.js"></script>
+    <script src="codeJudge.js"></script>
+    <script src="timer.js"></script>
+    <script src="ai.js"></script>
+    <script src="scoring.js"></script>
 
-  </div>
-  
-<!-- FINAL RESULTS -->
-<div id="results-area">
-  <div id="final-results" class="result-hidden">
-    <div class="score-showdown">
-      <div class="user-score">
-        <h3>YOUR SCORE</h3>
-        <div id="user-final-score" class="score-number"></div>
-      </div>
-      <div class="vs-divider">VS</div>
-      <div class="ai-score">
-        <h3>🤖 AI SCORE</h3>
-        <div id="ai-final-score" class="score-number"></div>
-      </div>
-    </div>
-    <div id="win-message"></div>
-  </div>
+    <script>
+      const gameContainer = document.getElementById("game-container");
 
- 
-
-  <!-- PLAY AGAIN -->
-  <button id="play-again-btn" class="btn"> New Challenge</button>
-</div>
-
-
-
-
-  <!-- JS FILES -->
-  <script src="input.js"></script>
-  <script src="codeJudge.js"></script>
-  <script src="timer.js"></script>
-  <script src="ai.js"></script>
-  <script src="scoring.js"></script>
-
-  <script>
-    const gameContainer = document.getElementById("game-container");
-
-    ["easy", "medium", "hard"].forEach(level => {
-      document.getElementById(level + "Btn").addEventListener("click", () => {
-        gameContainer.classList.add("game-active");
-        document.getElementById("level-selector").classList.add("level-selected");
-        startAIChallenge(level);
+      ["easy", "medium", "hard"].forEach((level) => {
+        document.getElementById(level + "Btn").addEventListener("click", () => {
+          gameContainer.classList.add("game-active");
+          document
+            .getElementById("level-selector")
+            .classList.add("level-selected");
+          startAIChallenge(level);
+        });
       });
-    });
-  </script>
-
-</body>
+    </script>
+  </body>
 </html>

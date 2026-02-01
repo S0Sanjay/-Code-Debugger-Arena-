@@ -67,6 +67,7 @@ document.getElementById("submit").addEventListener("click", () => {
   const userCode = document.getElementById("code-input")?.value || "";
   const buggyCode = document.getElementById("bug")?.value || "";
 
+
   if (userCode === buggyCode) {
     alert("Please fix the code before submitting!");
     return;
