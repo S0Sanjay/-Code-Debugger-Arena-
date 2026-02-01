@@ -1,75 +1,112 @@
-// --- Calculate score ---
-function calculateFinalScore(inputs) {
-  var totalTime = 90; // max seconds
+// --- SCORING.JS ---
+
+// Maximum time allowed per question
+const MAX_TIME = 90; // seconds
+
+// --- Calculate final score safely ---
+function calculateFinalScore(inputs = {}) {
+  // Safe defaults
+  const timeUsed = typeof inputs.timeUsed === "number" ? inputs.timeUsed : 0;
+  const errors = typeof inputs.errors === "number" ? inputs.errors : 0;
+  const difficulty = typeof inputs.difficulty === "string" ? inputs.difficulty : "easy";
+  const aiScore = inputs.aiResult?.aiScore || 50; // default AI score
 
   // Difficulty multiplier
-  var difficultyMultiplier = 1.0;
-  if (inputs.difficulty === "medium") difficultyMultiplier = 1.2;
-  if (inputs.difficulty === "hard") difficultyMultiplier = 1.5;
+  let difficultyMultiplier = 1.0;
+  if (difficulty === "medium") difficultyMultiplier = 1.2;
+  if (difficulty === "hard") difficultyMultiplier = 1.5;
 
   // Penalties
-  var timePenalty = (inputs.timeUsed / totalTime) * 20;
-  var errorPenalty = inputs.errors * 10;
+  const timePenalty = Math.min((timeUsed / MAX_TIME) * 20, 20); // max 20 points
+  const errorPenalty = errors * 10;
 
-  // Final score
-  var rawScore = (100 - timePenalty - errorPenalty) * difficultyMultiplier;
-  var userScore = Math.round(rawScore);
-
-  var aiScore = inputs.aiResult.aiScore;
+  // Calculate raw score
+  let rawScore = (100 - timePenalty - errorPenalty) * difficultyMultiplier;
+  const userScore = Math.max(0, Math.round(rawScore)); // no negative scores
 
   // Determine winner
-  var winner = "tie";
+  let winner = "tie";
   if (userScore > aiScore) winner = "user";
   if (userScore < aiScore) winner = "ai";
 
-  return { userScore: userScore, aiScore: aiScore, winner: winner };
+  return { userScore, aiScore, winner };
 }
 
-// --- Show results on screen ---
+// --- Display results on screen ---
 function onGameComplete(result) {
-  var finalResults = document.getElementById("final-results");
-  var sessionStats = document.getElementById("session-stats");
+  const finalResults = document.getElementById("final-results");
+  const userScoreElem = document.getElementById("user-final-score");
+  const aiScoreElem = document.getElementById("ai-final-score");
+  const winMessage = document.getElementById("win-message");
+
+  // Show results container
   finalResults.classList.remove("result-hidden");
-  sessionStats.classList.remove("result-hidden");
 
-  document.getElementById("user-final-score").innerHTML = result.userScore;
-  document.getElementById("ai-final-score").innerHTML = result.aiScore;
+  // Set scores
+  userScoreElem.innerText = result.userScore;
+  aiScoreElem.innerText = result.aiScore;
 
-  var winMessage = document.getElementById("win-message");
-  winMessage.classList.remove("win");
-  winMessage.classList.remove("lose");
+  // Reset previous classes
+  winMessage.classList.remove("win", "lose");
 
+  // Show win/lose/tie message
   if (result.winner === "user") {
-    winMessage.innerHTML = "🏆 YOU WIN! " + result.userScore + " vs AI " + result.aiScore;
+    winMessage.innerText = `🏆 YOU WIN! ${result.userScore} vs AI ${result.aiScore}`;
     winMessage.classList.add("win");
   } else if (result.winner === "ai") {
-    winMessage.innerHTML = "😤 TRY AGAIN! " + result.userScore + " vs AI " + result.aiScore;
+    winMessage.innerText = `😤 TRY AGAIN! ${result.userScore} vs AI ${result.aiScore}`;
     winMessage.classList.add("lose");
   } else {
-    winMessage.innerHTML = "🤝 PERFECT MATCH! Both " + result.userScore + " points";
+    winMessage.innerText = `🤝 PERFECT MATCH! Both ${result.userScore} points`;
   }
 }
 
-
-// --- Play again button ---
-document.getElementById("play-again-btn").onclick = function() {
-  location.reload();
-};
-
-
+// --- Submit button handler ---
 document.getElementById("submit").addEventListener("click", () => {
-  // Build gameInputs safely
+  // Collect inputs safely
+  const userCode = document.getElementById("code-input")?.value || "";
+  const buggyCode = document.getElementById("bug")?.value || "";
+
+  if (!userCode.trim()) {
+    alert("Cannot submit empty code!");
+    return;
+  }
+  if (userCode === buggyCode) {
+    alert("Please fix the code before submitting!");
+    return;
+  }
+
+  // Simple error count (line difference)
+  const userLines = userCode.split("\n");
+  const buggyLines = buggyCode.split("\n");
+  let errors = 0;
+  for (let i = 0; i < buggyLines.length; i++) {
+    if (userLines[i] !== buggyLines[i]) errors++;
+  }
+
+  // Time used (needs startTime to be set globally)
+  const timeUsed = typeof startTime === "number" ? (Date.now() - startTime) / 1000 : 0;
+
+  // Difficulty (fallback to easy)
+  const difficulty = currentLevel || "easy";
+
+  // AI score from page or fallback
+  const aiScore = parseInt(document.getElementById("ai-score")?.innerText) || 50;
+
+  // Build inputs object
   const gameInputs = {
-    timeUsed: typeof startTime === "number" ? (Date.now() - startTime) / 1000 : 0,
-    errors: typeof errors === "number" ? errors : 0,
-    difficulty: currentLevel || "easy",
-    aiResult: {
-      aiScore: parseInt(document.getElementById("ai-score")?.innerText) || 50
-    }
+    timeUsed,
+    errors,
+    difficulty,
+    aiResult: { aiScore }
   };
 
-  // Calculate final score
+  // Calculate score and show results
   const result = calculateFinalScore(gameInputs);
   onGameComplete(result);
 });
 
+// --- Play again button ---
+document.getElementById("play-again-btn").onclick = () => {
+  location.reload();
+};
