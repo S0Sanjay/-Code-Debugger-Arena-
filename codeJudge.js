@@ -41,7 +41,7 @@ window.judgeCode = function (code) {
 };
 
 window.showSuccess = function (result) {
-  const resultsArea = document.getElementById("results-area");
+  const resultsArea = document.getElementById("code-judge");
   const resultDiv = document.getElementById("result-display");
   resultDiv.innerHTML = `
     <div class="bg-gradient-to-r from-green-400 to-green-500 text-white p-8 rounded-3xl shadow-2xl text-center">
@@ -56,7 +56,7 @@ window.showSuccess = function (result) {
 };
 
 window.showError = function (result) {
-  const resultsArea = document.getElementById("results-area");
+  const resultsArea = document.getElementById("code-judge");
   const resultDiv = document.getElementById("result-display");
 
   resultDiv.innerHTML = `
@@ -69,7 +69,7 @@ window.showError = function (result) {
 };
 
 document.getElementById("close-result").onclick = function () {
-  document.getElementById("results-area").classList.add("hidden");
+  document.getElementById("code-judge").classList.add("hidden");
 };
 
 function testCode() {
